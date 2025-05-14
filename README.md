@@ -1,6 +1,6 @@
 # 🚀 Space Impact Game - Fun Project!
 
-A modern remake of the classic Space Impact game using React and Vite. Created for fun and nostalgia!
+A remake of the classic Space Impact game using React and Vite. Created for fun and nostalgia!
 
 ![Space Impact Game Screenshot](/public/assets/game-screenshot.png)
 
