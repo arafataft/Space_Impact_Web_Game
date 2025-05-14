@@ -1,50 +1,104 @@
-# React + TypeScript + Vite
+# Space Impact Game
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern remake of the classic Space Impact game using React and Vite.
 
-Currently, two official plugins are available:
+![Space Impact Game Screenshot](https://img.shields.io/badge/Space%20Impact-Game-blue)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## About
 
-## Expanding the ESLint configuration
+Space Impact is a classic side-scrolling shooter game where you control a spaceship, shoot enemies, and avoid collisions. This implementation is built with React and Vite.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## How to Run the Project
 
-- Configure the top-level `parserOptions` property like this:
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd space_impact_game
+   ```
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+2. **Install dependencies**
+   ```bash
+   npm install
+   # or
+   pnpm install
+   # or
+   yarn install
+   ```
+
+3. **Start the development server**
+   ```bash
+   npm run dev
+   # or
+   pnpm dev
+   # or
+   yarn dev
+   ```
+
+4. **Open in browser**
+   Open your browser and navigate to http://localhost:5173/
+
+## How to Play
+
+1. **Start the Game**
+   - Click the "Start Game" button on the home screen
+
+2. **Controls**
+   - Use **Arrow Keys** (↑, ↓, ←, →) to navigate your spaceship
+   - Press **Spacebar** to shoot enemies
+
+3. **Gameplay**
+   - Destroy enemy ships by shooting at them
+   - Avoid collisions with enemies
+   - Each enemy destroyed awards you 10 points
+   - You have 3 lives, shown in the top right corner
+   - Game ends when you lose all lives
+
+4. **Game Over**
+   - When game ends, your final score will be displayed
+   - Click "Play Again" to restart
+
+## Project Structure
+
+The project is organized as follows:
+
+```
+src/
+├── app/
+│   ├── Game.jsx         # Main game component
+│   └── page.jsx         # Home page component
+├── App.tsx              # Root application component
+├── App.css              # Application styles
+├── index.css            # Global styles
+└── main.tsx             # Entry point
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Features
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- Spaceship movement using arrow keys
+- Shooting mechanism with spacebar
+- Enemy spawning with random positions
+- Collision detection for bullets and enemies
+- Score tracking
+- Lives system
+- Game over screen with score display
+- Responsive design
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## Technologies
+
+- React
+- TypeScript/JavaScript
+- Vite
+- CSS
+
+## Future Improvements
+
+- Add different types of enemies
+- Power-ups and special weapons
+- Level progression
+- High score leaderboard
+- Sound effects and music
+- Mobile touch controls
+
+## License
+
+MIT
