@@ -4,7 +4,6 @@ A modern remake of the classic Space Impact game using React and Vite. Created f
 
 ![Space Impact Game Screenshot](/public/assets/game-screenshot.png)
 
-> **Note**: Add a screenshot of your game to `/public/assets/game-screenshot.png`
 
 ### Game Preview:
 
@@ -12,7 +11,6 @@ A modern remake of the classic Space Impact game using React and Vite. Created f
 |-------------|----------|-----------|
 | ![Start Screen](/public/assets/start-screen.png) | ![Gameplay](/public/assets/gameplay.png) | ![Game Over](/public/assets/game-over.png) |
 
-> **Note**: Add these screenshots as needed
 
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
