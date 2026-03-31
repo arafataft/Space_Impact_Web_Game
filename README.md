@@ -2,14 +2,14 @@
 
 A remake of the classic Space Impact game using React and Vite. Created for fun and nostalgia!
 
-![Space Impact Game Screenshot](/public/assets/game-screenshot.png)
+![Space Impact Game Screenshot](./public/assets/game-screenshot.png)
 
 
 ### Game Preview:
 
 | Start Screen | Gameplay | Game Over |
 |-------------|----------|-----------|
-| ![Start Screen](/public/assets/start-screen.png) | ![Gameplay](/public/assets/gameplay.png) | ![Game Over](/public/assets/game-over.png) |
+| ![Start Screen](./public/assets/start-screen.png) | ![Gameplay](./public/assets/gameplay.png) | ![Game Over](./public/assets/game-over.png) |
 
 
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
