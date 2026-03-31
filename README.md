@@ -79,12 +79,15 @@ Space Impact is a classic side-scrolling shooter game where you control a spaces
 2. **Controls**
    - Use **Arrow Keys** (↑, ↓, ←, →) to navigate your spaceship
    - Press **Spacebar** to shoot enemies
+   - Press **P** to pause or resume
 
 3. **Gameplay**
    - Destroy enemy ships by shooting at them
-   - Avoid collisions with enemies
+   - Avoid collisions with enemies and enemy bullets
    - Each enemy destroyed awards you 10 points
+   - Difficulty increases with wave progression
    - You have 3 lives, shown in the top right corner
+   - High score is saved locally in your browser
    - Game ends when you lose all lives
 
 4. **Game Over**
@@ -98,7 +101,12 @@ The project is organized as follows:
 ```
 src/
 ├── app/
-│   ├── Game.jsx         # Main game component
+│   ├── Game.jsx         # Accessible presentation layer
+│   ├── Game.css         # Dedicated UI styles for game scene/HUD/overlays
+│   ├── game/
+│   │   ├── constants.js # Tunable gameplay/system constants
+│   │   ├── utils.js     # Pure utility helpers (collision, bounds, wave math)
+│   │   └── useGameEngine.js # Main gameplay engine hook and loop
 │   └── page.jsx         # Home page component
 ├── App.tsx              # Root application component
 ├── App.css              # Application styles
@@ -111,15 +119,29 @@ src/
 - Spaceship movement using arrow keys
 - Shooting mechanism with spacebar
 - Enemy spawning with random positions
+- Enemy projectile system
+- Wave-based difficulty scaling
 - Collision detection for bullets and enemies
+- Collision detection for enemy bullets and player
 - Score tracking
+- Persistent high score (localStorage)
 - Lives system
+- Pause/resume gameplay
 - Game over screen with score display
-- Responsive design
+- Responsive board behavior
+- Accessibility-focused semantics and live status updates
+
+## Accessibility
+
+- Semantic HUD and game container with descriptive labels
+- Keyboard-first controls with focus management on play
+- Live region updates for critical game state (score/lives/wave/paused)
+- Clear start/game over/pause overlays with button actions
 
 ## Technologies
 
 - React
+- Motion (Framer Motion)
 - TypeScript/JavaScript
 - Vite
 - CSS
@@ -128,7 +150,7 @@ src/
 
 - Add different types of enemies
 - Power-ups and special weapons
-- Level progression
+- Boss fights and mission objectives
 - High score leaderboard
 - Sound effects and music
 - Mobile touch controls
