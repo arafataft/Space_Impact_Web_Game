@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import './Game.css';
 import { useGameEngine } from './game/useGameEngine';
@@ -11,7 +11,15 @@ const Game = () => {
     config: { gameBoardStyle, player, bullet, enemy, enemyBullet },
   } = useGameEngine();
 
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  useEffect(() => {
+    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }, []);
+
   const moveIntervalRef = useRef(null);
+
+  const canControl = gameStarted && !gameOver && !isPaused;
 
   const clearMoveInterval = useCallback(() => {
     if (moveIntervalRef.current !== null) {
@@ -22,10 +30,11 @@ const Game = () => {
 
   const handleDirectionTouch = useCallback((direction) => (e) => {
     e.preventDefault();
+    if (!canControl) return;
     clearMoveInterval();
     movePlayer(direction);
     moveIntervalRef.current = setInterval(() => movePlayer(direction), 80);
-  }, [movePlayer, clearMoveInterval]);
+  }, [movePlayer, clearMoveInterval, canControl]);
 
   const handleDirectionEnd = useCallback((e) => {
     e.preventDefault();
@@ -34,8 +43,9 @@ const Game = () => {
 
   const handleFireTouch = useCallback((e) => {
     e.preventDefault();
+    if (!canControl) return;
     shoot();
-  }, [shoot]);
+  }, [shoot, canControl]);
 
   const handlePauseTouch = useCallback((e) => {
     e.preventDefault();
@@ -43,6 +53,7 @@ const Game = () => {
   }, [togglePause]);
 
   const boardRef = useRef(null);
+  const shellRef = useRef(null);
 
   useEffect(() => {
     if (gameStarted && !gameOver && boardRef.current) {
@@ -50,10 +61,36 @@ const Game = () => {
     }
   }, [gameStarted, gameOver]);
 
+  useEffect(() => {
+    if (!isTouchDevice) return;
+    const el = shellRef.current;
+    if (!el) return;
+
+    const updateScale = () => {
+      const isLandscape = window.innerWidth > window.innerHeight;
+      if (isLandscape && el.scrollHeight > window.innerHeight) {
+        const scale = Math.min(1, window.innerHeight / el.scrollHeight);
+        el.style.transform = `scale(${scale})`;
+        el.style.transformOrigin = 'top center';
+        el.style.height = `${window.innerHeight}px`;
+        el.style.overflow = 'hidden';
+      } else {
+        el.style.transform = '';
+        el.style.transformOrigin = '';
+        el.style.height = '';
+        el.style.overflow = '';
+      }
+    };
+
+    updateScale();
+    window.addEventListener('resize', updateScale);
+    return () => window.removeEventListener('resize', updateScale);
+  }, [isTouchDevice]);
+
   const liveStatus = `Score ${score}, Lives ${lives}, Wave ${wave}${isPaused ? ', Paused' : ''}`;
 
   return (
-    <section className="game-shell" aria-label="Space Impact game container">
+    <section ref={shellRef} className="game-shell" aria-label="Space Impact game container">
       <motion.div
         className="game-card"
         initial={{ opacity: 0, y: 18, scale: 0.98 }}
@@ -234,6 +271,7 @@ const Game = () => {
         </div>
       </motion.div>
 
+      {isTouchDevice && (
       <div className="touch-controls" aria-label="Touch controls">
         <div className="touch-dpad">
           <div className="touch-dpad-placeholder" />
@@ -301,10 +339,13 @@ const Game = () => {
           </button>
         </div>
       </div>
+      )}
 
+      {!isTouchDevice && (
       <p id="game-instructions" className="controls">
         Controls: Arrow keys to move, Space to shoot, P to pause and resume.
       </p>
+      )}
     </section>
   );
 };

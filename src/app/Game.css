@@ -251,7 +251,7 @@
 }
 
 .touch-controls {
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0.6rem 1rem;
@@ -260,12 +260,6 @@
   border: 2px solid #9ed700;
   -webkit-user-select: none;
   user-select: none;
-}
-
-@media (hover: none) and (pointer: coarse) {
-  .touch-controls {
-    display: flex;
-  }
 }
 
 .touch-dpad {
@@ -366,5 +360,54 @@
   .secondary-btn,
   .overlay p {
     font-size: 0.46rem;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+  .game-shell {
+    padding: 0.3rem;
+  }
+
+  .game-header {
+    padding: 0.25rem 0.5rem;
+    gap: 0.25rem;
+  }
+
+  .game-title {
+    font-size: 0.55rem;
+  }
+
+  .game-subtitle {
+    display: none;
+  }
+
+  .hud-chip {
+    padding: 0.2rem 0.35rem;
+    font-size: 0.42rem;
+  }
+
+  .game-board-wrap {
+    padding: 0.25rem;
+  }
+
+  .touch-controls {
+    padding: 0.25rem 0.5rem;
+    margin-top: 0.25rem;
+  }
+
+  .touch-dpad {
+    grid-template-columns: repeat(3, 38px);
+    grid-template-rows: repeat(3, 38px);
+    gap: 2px;
+  }
+
+  .touch-dpad-btn {
+    font-size: 0.7rem;
+  }
+
+  .touch-action-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 0.4rem;
   }
 }
