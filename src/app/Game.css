@@ -388,26 +388,53 @@
 
   .game-board-wrap {
     padding: 0.25rem;
+    position: relative;
   }
 
   .touch-controls {
-    padding: 0.25rem 0.5rem;
-    margin-top: 0.25rem;
+    position: absolute;
+    bottom: 0.25rem;
+    left: 0.25rem;
+    right: 0.25rem;
+    margin-top: 0;
+    padding: 0 0.5rem;
+    background: none;
+    border: none;
+    pointer-events: none;
   }
 
   .touch-dpad {
-    grid-template-columns: repeat(3, 38px);
-    grid-template-rows: repeat(3, 38px);
-    gap: 2px;
+    grid-template-columns: repeat(3, 44px);
+    grid-template-rows: repeat(3, 44px);
+    gap: 3px;
+    pointer-events: auto;
   }
 
   .touch-dpad-btn {
-    font-size: 0.7rem;
+    background: rgba(26, 38, 0, 0.7);
+    font-size: 0.75rem;
+  }
+
+  .touch-dpad-btn:active {
+    background: #9ed700;
+  }
+
+  .touch-actions {
+    pointer-events: auto;
   }
 
   .touch-action-btn {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     font-size: 0.4rem;
+    opacity: 0.85;
+  }
+
+  .touch-fire {
+    background: rgba(184, 243, 0, 0.8);
+  }
+
+  .touch-pause {
+    background: rgba(34, 51, 0, 0.8);
   }
 }

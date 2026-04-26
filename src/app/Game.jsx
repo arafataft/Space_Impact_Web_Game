@@ -53,7 +53,6 @@ const Game = () => {
   }, [togglePause]);
 
   const boardRef = useRef(null);
-  const shellRef = useRef(null);
 
   useEffect(() => {
     if (gameStarted && !gameOver && boardRef.current) {
@@ -61,36 +60,10 @@ const Game = () => {
     }
   }, [gameStarted, gameOver]);
 
-  useEffect(() => {
-    if (!isTouchDevice) return;
-    const el = shellRef.current;
-    if (!el) return;
-
-    const updateScale = () => {
-      const isLandscape = window.innerWidth > window.innerHeight;
-      if (isLandscape && el.scrollHeight > window.innerHeight) {
-        const scale = Math.min(1, window.innerHeight / el.scrollHeight);
-        el.style.transform = `scale(${scale})`;
-        el.style.transformOrigin = 'top center';
-        el.style.height = `${window.innerHeight}px`;
-        el.style.overflow = 'hidden';
-      } else {
-        el.style.transform = '';
-        el.style.transformOrigin = '';
-        el.style.height = '';
-        el.style.overflow = '';
-      }
-    };
-
-    updateScale();
-    window.addEventListener('resize', updateScale);
-    return () => window.removeEventListener('resize', updateScale);
-  }, [isTouchDevice]);
-
   const liveStatus = `Score ${score}, Lives ${lives}, Wave ${wave}${isPaused ? ', Paused' : ''}`;
 
   return (
-    <section ref={shellRef} className="game-shell" aria-label="Space Impact game container">
+    <section className="game-shell" aria-label="Space Impact game container">
       <motion.div
         className="game-card"
         initial={{ opacity: 0, y: 18, scale: 0.98 }}
@@ -268,78 +241,78 @@ const Game = () => {
               )}
             </AnimatePresence>
           </div>
+
+          {isTouchDevice && (
+          <div className="touch-controls" aria-label="Touch controls">
+            <div className="touch-dpad">
+              <div className="touch-dpad-placeholder" />
+              <button
+                type="button"
+                className="touch-dpad-btn"
+                aria-label="Move up"
+                onTouchStart={handleDirectionTouch(CONTROL_KEYS.up)}
+                onTouchEnd={handleDirectionEnd}
+                onTouchCancel={handleDirectionEnd}
+              >
+                &#9650;
+              </button>
+              <div className="touch-dpad-placeholder" />
+              <button
+                type="button"
+                className="touch-dpad-btn"
+                aria-label="Move left"
+                onTouchStart={handleDirectionTouch(CONTROL_KEYS.left)}
+                onTouchEnd={handleDirectionEnd}
+                onTouchCancel={handleDirectionEnd}
+              >
+                &#9664;
+              </button>
+              <button
+                type="button"
+                className="touch-dpad-btn"
+                aria-label="Move down"
+                onTouchStart={handleDirectionTouch(CONTROL_KEYS.down)}
+                onTouchEnd={handleDirectionEnd}
+                onTouchCancel={handleDirectionEnd}
+              >
+                &#9660;
+              </button>
+              <button
+                type="button"
+                className="touch-dpad-btn"
+                aria-label="Move right"
+                onTouchStart={handleDirectionTouch(CONTROL_KEYS.right)}
+                onTouchEnd={handleDirectionEnd}
+                onTouchCancel={handleDirectionEnd}
+              >
+                &#9654;
+              </button>
+              <div className="touch-dpad-placeholder" />
+              <div className="touch-dpad-placeholder" />
+              <div className="touch-dpad-placeholder" />
+            </div>
+            <div className="touch-actions">
+              <button
+                type="button"
+                className="touch-action-btn touch-fire"
+                aria-label="Fire"
+                onTouchStart={handleFireTouch}
+              >
+                FIRE
+              </button>
+              <button
+                type="button"
+                className="touch-action-btn touch-pause"
+                aria-label="Pause"
+                onTouchStart={handlePauseTouch}
+              >
+                {isPaused ? 'PLAY' : 'PAUSE'}
+              </button>
+            </div>
+          </div>
+          )}
         </div>
       </motion.div>
-
-      {isTouchDevice && (
-      <div className="touch-controls" aria-label="Touch controls">
-        <div className="touch-dpad">
-          <div className="touch-dpad-placeholder" />
-          <button
-            type="button"
-            className="touch-dpad-btn"
-            aria-label="Move up"
-            onTouchStart={handleDirectionTouch(CONTROL_KEYS.up)}
-            onTouchEnd={handleDirectionEnd}
-            onTouchCancel={handleDirectionEnd}
-          >
-            &#9650;
-          </button>
-          <div className="touch-dpad-placeholder" />
-          <button
-            type="button"
-            className="touch-dpad-btn"
-            aria-label="Move left"
-            onTouchStart={handleDirectionTouch(CONTROL_KEYS.left)}
-            onTouchEnd={handleDirectionEnd}
-            onTouchCancel={handleDirectionEnd}
-          >
-            &#9664;
-          </button>
-          <button
-            type="button"
-            className="touch-dpad-btn"
-            aria-label="Move down"
-            onTouchStart={handleDirectionTouch(CONTROL_KEYS.down)}
-            onTouchEnd={handleDirectionEnd}
-            onTouchCancel={handleDirectionEnd}
-          >
-            &#9660;
-          </button>
-          <button
-            type="button"
-            className="touch-dpad-btn"
-            aria-label="Move right"
-            onTouchStart={handleDirectionTouch(CONTROL_KEYS.right)}
-            onTouchEnd={handleDirectionEnd}
-            onTouchCancel={handleDirectionEnd}
-          >
-            &#9654;
-          </button>
-          <div className="touch-dpad-placeholder" />
-          <div className="touch-dpad-placeholder" />
-          <div className="touch-dpad-placeholder" />
-        </div>
-        <div className="touch-actions">
-          <button
-            type="button"
-            className="touch-action-btn touch-fire"
-            aria-label="Fire"
-            onTouchStart={handleFireTouch}
-          >
-            FIRE
-          </button>
-          <button
-            type="button"
-            className="touch-action-btn touch-pause"
-            aria-label="Pause"
-            onTouchStart={handlePauseTouch}
-          >
-            {isPaused ? 'PLAY' : 'PAUSE'}
-          </button>
-        </div>
-      </div>
-      )}
 
       {!isTouchDevice && (
       <p id="game-instructions" className="controls">
