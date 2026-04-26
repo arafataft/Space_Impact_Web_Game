@@ -1,14 +1,46 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import './Game.css';
 import { useGameEngine } from './game/useGameEngine';
+import { CONTROL_KEYS } from './game/constants';
 
 const Game = () => {
   const {
     state: { playerPosition, bullets, enemies, enemyBullets, score, highScore, lives, wave, gameOver, gameStarted, isPaused },
-    actions: { startGame, togglePause, onKeyDown, setIsInputActive },
+    actions: { movePlayer, shoot, startGame, togglePause, onKeyDown, setIsInputActive },
     config: { gameBoardStyle, player, bullet, enemy, enemyBullet },
   } = useGameEngine();
+
+  const moveIntervalRef = useRef(null);
+
+  const clearMoveInterval = useCallback(() => {
+    if (moveIntervalRef.current !== null) {
+      clearInterval(moveIntervalRef.current);
+      moveIntervalRef.current = null;
+    }
+  }, []);
+
+  const handleDirectionTouch = useCallback((direction) => (e) => {
+    e.preventDefault();
+    clearMoveInterval();
+    movePlayer(direction);
+    moveIntervalRef.current = setInterval(() => movePlayer(direction), 80);
+  }, [movePlayer, clearMoveInterval]);
+
+  const handleDirectionEnd = useCallback((e) => {
+    e.preventDefault();
+    clearMoveInterval();
+  }, [clearMoveInterval]);
+
+  const handleFireTouch = useCallback((e) => {
+    e.preventDefault();
+    shoot();
+  }, [shoot]);
+
+  const handlePauseTouch = useCallback((e) => {
+    e.preventDefault();
+    togglePause();
+  }, [togglePause]);
 
   const boardRef = useRef(null);
 
@@ -201,6 +233,74 @@ const Game = () => {
           </div>
         </div>
       </motion.div>
+
+      <div className="touch-controls" aria-label="Touch controls">
+        <div className="touch-dpad">
+          <div className="touch-dpad-placeholder" />
+          <button
+            type="button"
+            className="touch-dpad-btn"
+            aria-label="Move up"
+            onTouchStart={handleDirectionTouch(CONTROL_KEYS.up)}
+            onTouchEnd={handleDirectionEnd}
+            onTouchCancel={handleDirectionEnd}
+          >
+            &#9650;
+          </button>
+          <div className="touch-dpad-placeholder" />
+          <button
+            type="button"
+            className="touch-dpad-btn"
+            aria-label="Move left"
+            onTouchStart={handleDirectionTouch(CONTROL_KEYS.left)}
+            onTouchEnd={handleDirectionEnd}
+            onTouchCancel={handleDirectionEnd}
+          >
+            &#9664;
+          </button>
+          <button
+            type="button"
+            className="touch-dpad-btn"
+            aria-label="Move down"
+            onTouchStart={handleDirectionTouch(CONTROL_KEYS.down)}
+            onTouchEnd={handleDirectionEnd}
+            onTouchCancel={handleDirectionEnd}
+          >
+            &#9660;
+          </button>
+          <button
+            type="button"
+            className="touch-dpad-btn"
+            aria-label="Move right"
+            onTouchStart={handleDirectionTouch(CONTROL_KEYS.right)}
+            onTouchEnd={handleDirectionEnd}
+            onTouchCancel={handleDirectionEnd}
+          >
+            &#9654;
+          </button>
+          <div className="touch-dpad-placeholder" />
+          <div className="touch-dpad-placeholder" />
+          <div className="touch-dpad-placeholder" />
+        </div>
+        <div className="touch-actions">
+          <button
+            type="button"
+            className="touch-action-btn touch-fire"
+            aria-label="Fire"
+            onTouchStart={handleFireTouch}
+          >
+            FIRE
+          </button>
+          <button
+            type="button"
+            className="touch-action-btn touch-pause"
+            aria-label="Pause"
+            onTouchStart={handlePauseTouch}
+          >
+            {isPaused ? 'PLAY' : 'PAUSE'}
+          </button>
+        </div>
+      </div>
 
       <p id="game-instructions" className="controls">
         Controls: Arrow keys to move, Space to shoot, P to pause and resume.

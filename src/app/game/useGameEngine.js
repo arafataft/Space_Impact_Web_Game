@@ -376,6 +376,8 @@ export const useGameEngine = () => {
       wave,
     },
     actions: {
+      movePlayer,
+      shoot,
       startGame,
       togglePause,
       onKeyDown,
